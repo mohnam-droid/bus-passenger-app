@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال الركاب الحاليين</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .passenger-list {
+            margin-top: 20px;
+        }
+        .passenger-list input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>إدخال أسماء الركاب الحاليين</h2>
+        <div id="current-passenger-inputs"></div>
+        <button class="button" onclick="addCurrentPassengerInput()">إضافة راكب</button>
+        <button class="button" onclick="comparePassengers()">مقارنة الركاب</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        function addCurrentPassengerInput() {
+            const currentPassengerInputs = document.getElementById('current-passenger-inputs');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'أدخل اسم الراكب';
+            currentPassengerInputs.appendChild(input);
+        }
+
+        function comparePassengers() {
+            const currentPassengerInputs = document.getElementById('current-passenger-inputs').getElementsByTagName('input');
+            const currentPassengers = [];
+            for (let input of currentPassengerInputs) {
+                currentPassengers.push(input.value);
+            }
+
+            const savedPassengers = JSON.parse(localStorage.getItem('passengers')) || [];
+            const absentees = savedPassengers.filter(passenger => !currentPassengers.includes(passenger));
+            const guests = currentPassengers.filter(passenger => !savedPassengers.includes(passenger));
+
+            document.getElementById('result').innerHTML = `
+                <h3>الركاب الغائبين:</h3>
+                <ul>${absentees.map(passenger => `<li>${passenger}</li>`).join('')}</ul>
+                <h3>الركاب الضيوف:</h3>
+                <ul>${guests.map(passenger => `<li>${passenger}</li>`).join('')}</ul>
+            `;
+        }
+    </script>
+</body>
+</html>

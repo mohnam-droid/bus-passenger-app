@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال الركاب الأساسيين</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .passenger-list {
+            margin-top: 20px;
+        }
+        .passenger-list input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>إدخال أسماء الركاب الأساسيين</h2>
+        <div id="passenger-inputs"></div>
+        <button class="button" onclick="addPassengerInput()">إضافة راكب</button>
+        <button class="button" onclick="savePassengers()">حفظ الركاب</button>
+    </div>
+    <script>
+        function addPassengerInput() {
+            const passengerInputs = document.getElementById('passenger-inputs');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'أدخل اسم الراكب';
+            passengerInputs.appendChild(input);
+        }
+
+        function savePassengers() {
+            const passengerInputs = document.getElementById('passenger-inputs').getElementsByTagName('input');
+            const passengers = [];
+            for (let input of passengerInputs) {
+                passengers.push(input.value);
+            }
+            localStorage.setItem('passengers', JSON.stringify(passengers));
+            alert('تم حفظ الركاب: ' + passengers.join(', '));
+            window.location.href = 'current_passengers.html';
+        }
+    </script>
+</body>
+</html>
